@@ -20,9 +20,18 @@ import userRouter from "./routes/user.route.js"
 //routes declaration
 app.use("/api/v1/users", userRouter)
 
-//this line i am changing to see that i can push the code or not
 
+// Return API errors as JSON instead of Express's default HTML error page.
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500
 
-
+    return res.status(statusCode).json({
+        statusCode,
+        data: null,
+        message: err.message || "Internal server error",
+        success: false,
+        errors: err.errors || []
+    })
+})
 
 export { app }
